@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="te">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yojana · అక్టోబర్ 2026 · VibhillionAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Source+Serif+4:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Serif+Telugu:wght@500;700&display=swap" rel="stylesheet">
+<!--
+  HOW TO USE THIS TEMPLATE  (one file = one monthly issue of Yojana)
+  1. Save it in the repo as   te/2026/October.html
+  2. Change ONLY the text. Keep every class name and data-* attribute: build-index.py reads them to build the app's list.
+     - <header class="issue-head" data-theme="…">  -> the theme of the issue (also write it in the <h1>)
+     - <ol class="glance">                         -> the 'theme at a glance' points
+     - one <article class="yj-article" id="a1" …>  per article (ids a1, a2, a3 … ). Copy the block as many times as needed.
+       data-category = Economy / Governance / Society / Agriculture / Environment / Science &amp; Technology / Polity …
+       data-author, data-relevance (Prelims / Mains GS-II …), data-read (minutes)
+  3. Commit. About a minute later the issue is in the app.
+-->
+<style>
+:root{--green:#0F766E;--orange:#FF8A24;--blue:#123B5D;--mint:#ECF8F4;--line:#D5EDE6;--peach:#FFEAD3;
+  --bg:#F4FBF8;--surface:#fff;--ink:#123B5D;--ink2:#41566A;--muted:#5B6B7A;--bodyink:#1E3446;--peachink:#5C2E00;--peachtag:#A34A00;--gov:'Noto Sans',sans-serif}
+html[data-theme="dark"]{color-scheme:dark;--green:#148A7F;--mint:#13262B;--line:#223D40;--peach:#3A2A18;--bg:#0D1A1F;--surface:#15262C;--ink:#E7F1F4;--ink2:#B7C8D1;--muted:#9AABB5;--bodyink:#D3E0E6;--peachink:#FFD9B3;--peachtag:#FFC48F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans','Noto Sans Telugu',system-ui,sans-serif}
+html[lang="te"] .issue-head small{letter-spacing:0}
+html[lang="te"] body{font-family:'Noto Sans Telugu','Plus Jakarta Sans',sans-serif;--gov:'Noto Sans Telugu','Noto Sans',sans-serif}
+.issue-head{background:var(--green);color:#fff;padding:22px 18px;border-bottom:4px solid var(--orange)}
+.issue-head small{color:#FFD3A8;font-weight:800;letter-spacing:.08em;font-size:11.5px;font-family:var(--gov)}
+.issue-head h1{margin:6px 0 4px;font-family:'Source Serif 4','Noto Serif Telugu',Georgia,serif;font-size:26px}
+.issue-head p{margin:0;color:#E6F5F1;font-size:13.5px}
+.wrap{max-width:100%;margin:0 auto;padding:18px 16px 40px;display:flex;flex-direction:column;gap:18px}
+@media(min-width:900px){.wrap{max-width:820px}}
+.glance{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px 14px 36px;margin:0;line-height:1.65}
+.yj-article{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--green);border-radius:20px;padding:22px 20px}
+.yj-article .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+.yj-article .meta b{background:var(--peach);color:var(--peachtag);padding:4px 10px;border-radius:999px;font-size:11.5px}
+.yj-article h2{font-family:'Source Serif 4','Noto Serif Telugu',Georgia,serif;font-size:24px;line-height:1.32;margin:10px 0 4px}
+.author{font-size:13px;color:var(--muted);margin:0 0 10px}
+.summary{font-size:15px;line-height:1.65;color:var(--ink2);margin:0 0 12px}
+.key-facts{background:var(--mint);border-radius:14px;padding:12px 14px 12px 32px;margin:0 0 14px;font-size:14.5px;line-height:1.65}
+.body{font-family:'Source Serif 4','Noto Serif Telugu',Georgia,serif;font-size:17px;line-height:1.8;color:var(--bodyink)}
+.body h3{font-family:'Plus Jakarta Sans','Noto Sans Telugu',sans-serif;font-size:16.5px;margin:18px 0 6px;color:var(--green)}
+html[data-theme="dark"] .body h3{color:#5EEAD4}
+.body p{margin:0 0 12px}
+.body table{width:100%;border-collapse:collapse;font-family:'Plus Jakarta Sans','Noto Sans Telugu',sans-serif;font-size:14px;margin:8px 0 14px}
+.body th,.body td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.body th{background:var(--mint)}
+.tbl{overflow-x:auto}
+.relevance{background:var(--peach);color:var(--peachink);border-radius:12px;padding:10px 12px;font-size:13.5px;margin-top:12px}
+footer{text-align:center;font-size:12px;line-height:1.6;color:#E6F5F1;background:var(--green);border-top:4px solid var(--orange);padding:20px}
+</style>
+<script>
+/* dark / light: the app passes ?theme=dark|light and sends a message when the student taps the moon/sun button;
+   opened on its own, the page follows the phone setting. */
+(function(){
+  function set(t){ if(t==='dark') document.documentElement.setAttribute('data-theme','dark'); else document.documentElement.removeAttribute('data-theme'); }
+  var q=new URLSearchParams(location.search).get('theme');
+  set(q || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  window.addEventListener('message',function(e){ if(e.data && e.data.yjTheme) set(e.data.yjTheme); });
+})();
+</script>
+</head>
+<body>
+<header class="issue-head" data-theme="ఈ సంచిక థీమ్ ఇక్కడ రాయండి">
+  <small>మూలం: యోజన · అక్టోబర్ 2026 · తెలుగు ఎడిషన్</small>
+  <h1>ఈ సంచిక థీమ్ ఇక్కడ రాయండి</h1>
+  <p>VibhillionAI study notes</p>
+</header>
+<main class="wrap">
+  <ol class="glance"><li>సంచికలోని మొదటి ముఖ్య అంశం</li><li>రెండో ముఖ్య అంశం, పథకం పేరుతో</li><li>మెయిన్స్‌లో రావడానికి అవకాశం ఉన్న మూడో అంశం</li></ol>
+
+  <!-- ===== ARTICLE 1: copy this whole <article> block for every article of the issue ===== -->
+  <article class="yj-article" id="a1" data-category="ఆర్థిక వ్యవస్థ" data-author="రచయిత పేరు, హోదా" data-relevance="మెయిన్స్ GS-III · ప్రిలిమ్స్" data-read="5">
+    <div class="meta"><b>ఆర్థిక వ్యవస్థ</b><span>5 ని. చదవడం</span></div>
+    <h2>ఆర్టికల్ 1 శీర్షిక</h2>
+    <p class="author">రచయిత: రచయిత పేరు, హోదా</p>
+    <p class="summary">రెండు వాక్యాలు: ఆర్టికల్ ఏమి చెబుతోంది, పరీక్షకు ఎందుకు ముఖ్యం.</p>
+    <ul class="key-facts"><li>ముఖ్యాంశం ఒకటి</li><li>రచయిత ఉదహరించిన పథకం, కమిటీ లేదా గణాంకం</li><li>రచయిత ప్రధాన సూచన</li></ul>
+    <div class="body">
+      <h3>సారాంశం</h3><p>ఆర్టికల్ గురించి మీ నోట్స్ ఇక్కడ రాయండి.</p>
+      <h3>పథకాలు, గణాంకాలు</h3><div class="tbl"><table><tr><th>అంశం</th><th>వివరం</th></tr><tr><td>[ … ]</td><td>[ … ]</td></tr></table></div>
+      <h3>ముందుకు మార్గం</h3><p>రచయిత సూచనలు, మెయిన్స్ సమాధానాల ముగింపుకు ఉపయోగపడతాయి.</p>
+    </div>
+    <div class="relevance"><b>పరీక్షా ప్రాధాన్యం:</b> మెయిన్స్ GS-III · ప్రిలిమ్స్</div>
+  </article>
+
+  <!-- ===== ARTICLE 2: copy this whole <article> block for every article of the issue ===== -->
+  <article class="yj-article" id="a2" data-category="పాలన" data-author="రచయిత పేరు, హోదా" data-relevance="మెయిన్స్ GS-II" data-read="6">
+    <div class="meta"><b>పాలన</b><span>6 ని. చదవడం</span></div>
+    <h2>ఆర్టికల్ 2 శీర్షిక</h2>
+    <p class="author">రచయిత: రచయిత పేరు, హోదా</p>
+    <p class="summary">రెండు వాక్యాలు: ఆర్టికల్ ఏమి చెబుతోంది, పరీక్షకు ఎందుకు ముఖ్యం.</p>
+    <ul class="key-facts"><li>ముఖ్యాంశం ఒకటి</li><li>రచయిత ఉదహరించిన పథకం, కమిటీ లేదా గణాంకం</li><li>రచయిత ప్రధాన సూచన</li></ul>
+    <div class="body">
+      <h3>సారాంశం</h3><p>ఆర్టికల్ గురించి మీ నోట్స్ ఇక్కడ రాయండి.</p>
+      <h3>పథకాలు, గణాంకాలు</h3><div class="tbl"><table><tr><th>అంశం</th><th>వివరం</th></tr><tr><td>[ … ]</td><td>[ … ]</td></tr></table></div>
+      <h3>ముందుకు మార్గం</h3><p>రచయిత సూచనలు, మెయిన్స్ సమాధానాల ముగింపుకు ఉపయోగపడతాయి.</p>
+    </div>
+    <div class="relevance"><b>పరీక్షా ప్రాధాన్యం:</b> మెయిన్స్ GS-II</div>
+  </article>
+
+  <!-- ===== ARTICLE 3: copy this whole <article> block for every article of the issue ===== -->
+  <article class="yj-article" id="a3" data-category="సమాజం" data-author="రచయిత పేరు, హోదా" data-relevance="మెయిన్స్ GS-I · ఎస్సే" data-read="7">
+    <div class="meta"><b>సమాజం</b><span>7 ని. చదవడం</span></div>
+    <h2>ఆర్టికల్ 3 శీర్షిక</h2>
+    <p class="author">రచయిత: రచయిత పేరు, హోదా</p>
+    <p class="summary">రెండు వాక్యాలు: ఆర్టికల్ ఏమి చెబుతోంది, పరీక్షకు ఎందుకు ముఖ్యం.</p>
+    <ul class="key-facts"><li>ముఖ్యాంశం ఒకటి</li><li>రచయిత ఉదహరించిన పథకం, కమిటీ లేదా గణాంకం</li><li>రచయిత ప్రధాన సూచన</li></ul>
+    <div class="body">
+      <h3>సారాంశం</h3><p>ఆర్టికల్ గురించి మీ నోట్స్ ఇక్కడ రాయండి.</p>
+      <h3>పథకాలు, గణాంకాలు</h3><div class="tbl"><table><tr><th>అంశం</th><th>వివరం</th></tr><tr><td>[ … ]</td><td>[ … ]</td></tr></table></div>
+      <h3>ముందుకు మార్గం</h3><p>రచయిత సూచనలు, మెయిన్స్ సమాధానాల ముగింపుకు ఉపయోగపడతాయి.</p>
+    </div>
+    <div class="relevance"><b>పరీక్షా ప్రాధాన్యం:</b> మెయిన్స్ GS-I · ఎస్సే</div>
+  </article>
+
+</main>
+<footer>© vibhillionai · Material prepared by VibhillionAI Team<br><i>యోజన</i> (Yojana) పత్రికలోని ఆర్టికల్స్ ఆధారంగా తయారుచేసిన నోట్స్. ప్రచురణ: Publications Division, Ministry of Information &amp; Broadcasting, Government of India. VibhillionAI స్వతంత్ర స్టడీ నోట్స్, అధికారిక ప్రచురణ కాదు.</footer>
+</body>
+</html>
