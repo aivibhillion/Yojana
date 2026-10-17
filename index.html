@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F766E">
+<title>Yojana Magazine Analysis · VibhillionAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Source+Serif+4:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Serif+Telugu:wght@500;700&display=swap" rel="stylesheet">
+<script>
+(function(){try{var t=localStorage.getItem('yj_theme');if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';
+if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();
+</script>
+<style>
+:root{
+  --green:#0F766E; --green-d:#0B5A54; --orange:#FF8A24; --orange-ink:#8A4300; --orange-t:#A34A00;
+  --blue:#123B5D; --blue-2:#2A5679;
+  --bg:#F4FBF8; --mint:#ECF8F4; --mint-2:#E1F4EF; --line:#D5EDE6; --line-2:#BFE3DA;
+  --card:#FFFFFF; --peach:#FFEAD3; --sky:#E3ECF5;
+  --ink:#123B5D; --ink-2:#41566A; --muted:#5B6B7A; --off:#8896A0;
+  --r-lg:20px; --r-md:14px;
+  --sans:'Plus Jakarta Sans','Noto Sans Telugu',system-ui,sans-serif;
+  --surface:#fff; --surface-glass:rgba(255,255,255,.97);
+  --gov:'Noto Sans','Noto Sans Telugu',system-ui,sans-serif;   /* Yojana name: font family used on Government of India portals */
+  --serif:'Source Serif 4','Noto Serif Telugu',Georgia,serif;
+}
+html[lang="te"]{--gov:'Noto Sans Telugu','Noto Sans',system-ui,sans-serif;--sans:'Noto Sans Telugu','Plus Jakarta Sans',system-ui,sans-serif;--serif:'Noto Serif Telugu','Source Serif 4',Georgia,serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:8px}
+svg{flex:none}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* shell */
+.shell{display:flex;min-height:100vh}
+.side{display:none}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;background:var(--surface-glass);backdrop-filter:blur(8px);border-bottom:3px solid var(--orange)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img,.brand svg{width:36px;height:36px;border-radius:10px;object-fit:contain}
+.brand b{font-size:16px;font-weight:800;display:block;line-height:1.1;font-family:'Plus Jakarta Sans',sans-serif}
+.brand small{font-size:11px;font-weight:600;color:var(--green);display:block}
+.tb-title{flex:1;min-width:0;line-height:1.2}
+.tb-title b{display:block;font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title small{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spacer{flex:1}
+.icon-btn{width:44px;height:44px;border:0;background:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.icon-btn:hover{background:var(--mint)}
+.lang{display:flex;gap:3px;padding:3px;border-radius:12px;background:var(--mint-2);flex:none}
+.lang a{min-width:40px;height:38px;padding:0 10px;display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:13px;font-weight:800;color:var(--green-d)}
+.lang a.te{font-family:'Noto Sans Telugu',sans-serif;font-size:14px}
+.lang a.on{background:var(--green);color:#fff}
+.crumbs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:9px 16px;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--mint);border-bottom:1px solid var(--line)}
+.crumbs a{color:var(--green);min-height:28px;display:inline-flex;align-items:center}
+.crumbs a:hover{text-decoration:underline}
+.crumbs .here{color:var(--ink);font-weight:800}
+.view{flex:1;width:100%;max-width:1180px;margin:0 auto;padding:16px 16px 28px;display:flex;flex-direction:column;gap:18px}
+
+/* common */
+h1,h2,h3{margin:0}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sec-head h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px}
+.sec-head h2::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--orange);flex:none}
+.sec-head .link{font-size:13px;font-weight:700;color:var(--green);min-height:44px;display:flex;align-items:center}
+.sub{font-size:12.5px;color:var(--muted)}
+.pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:999px}
+.pill.or{background:var(--orange);color:var(--blue)}
+.pill.sm{background:var(--peach);color:var(--orange-t)}
+.hero{position:relative;overflow:hidden;border-radius:22px;background:var(--green);color:#fff;padding:20px;box-shadow:inset 0 -6px 0 var(--orange)}
+.hero .orb{position:absolute;right:-44px;top:-50px;width:160px;height:160px;border-radius:50%;background:var(--blue);opacity:.35}
+.hero .mag{position:absolute;right:24px;top:22px;width:40px;height:54px;border-radius:6px;background:var(--orange);transform:rotate(9deg)}
+.hero .mag2{position:absolute;right:40px;top:28px;width:40px;height:54px;border-radius:6px;background:var(--surface);opacity:.92;transform:rotate(-6deg)}
+.hero h1{position:relative;margin:10px 0 8px;font-size:25px;line-height:1.25;font-weight:800;max-width:calc(100% - 70px)}
+.hero h1::after{content:"";display:block;width:64px;height:5px;border-radius:3px;background:var(--orange);margin-top:10px}
+.hero p{position:relative;margin:0;font-size:13.5px;line-height:1.6;color:#E6F5F1;max-width:620px}
+.stats{position:relative;display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.stat{min-width:84px;padding:10px 14px;border-radius:14px;background:var(--blue)}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif}
+.stat span{font-size:11.5px;color:#CFE6E2}
+.search label{display:flex;align-items:center;gap:10px;height:50px;padding:0 6px 0 14px;background:var(--surface);border:1.5px solid var(--line-2);border-radius:var(--r-md)}
+.search label:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(15,118,110,.15)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:14.5px}
+.search input::placeholder{color:#6B7C86}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg)}
+.row{display:flex;align-items:center;gap:12px;padding:12px;min-height:64px;background:var(--surface);border:1px solid var(--line);border-radius:16px;transition:border-color .15s,transform .15s}
+.row:hover{border-color:var(--green);transform:translateY(-1px)}
+.row .t{flex:1;min-width:0}
+.row .t b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .t span{display:block;font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ico{width:42px;height:42px;flex:none;border-radius:12px;background:var(--peach);color:var(--orange-t);display:flex;align-items:center;justify-content:center}
+.count{background:var(--peach);color:var(--orange-ink);font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.stack{display:flex;flex-direction:column;gap:10px}
+.empty{padding:22px;text-align:center;color:var(--muted);font-size:14px;background:var(--surface);border:1.5px dashed var(--line-2);border-radius:var(--r-lg)}
+.note{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-radius:16px;background:var(--peach);color:#5C2E00;font-size:12.5px;line-height:1.55}
+
+/* magazine covers (drawn in CSS — month + theme, VibhillionAI colours) */
+.cover{position:relative;aspect-ratio:3/4;border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;box-shadow:inset 0 -6px 0 var(--strip),0 6px 14px rgba(18,59,93,.12);background:var(--cbg);color:var(--cfg)}
+.cover .mh{font-size:9px;font-weight:800;letter-spacing:.2em;opacity:.95;font-family:'Noto Sans',sans-serif}
+.cover .mh.te{letter-spacing:.02em;font-size:12px;font-weight:700;font-family:'Noto Sans Telugu','Noto Sans',sans-serif}
+.cover .mo{font-size:24px;font-weight:800;line-height:1;font-family:'Plus Jakarta Sans','Noto Sans Telugu',sans-serif}
+.cover .th{font-size:10.5px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cover .deco{position:absolute;right:-18px;top:34%;width:60px;height:60px;border-radius:50%;border:8px solid currentColor;opacity:.12}
+.cover.lg{border-radius:14px;padding:14px}
+.cover.lg .mh{font-size:11px}.cover.lg .mh.te{font-size:13px}
+.cover.lg .mo{font-size:38px}
+.cover.lg .th{font-size:12.5px}
+.cover.te .mo{font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.cover.lg.te .mo{font-size:22px}
+@media (min-width:1024px){.cover.te .mo{font-size:20px}}
+.c0{--cbg:#0F766E;--cfg:#fff;--strip:#FF8A24}
+.c1{--cbg:#123B5D;--cfg:#fff;--strip:#FF8A24}
+.c2{--cbg:#FF8A24;--cfg:#123B5D;--strip:#123B5D}
+.c3{--cbg:#0B5A54;--cfg:#fff;--strip:#FFB46E}
+.c4{--cbg:#2A5679;--cfg:#fff;--strip:#FF8A24}
+.covers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ci{display:flex;flex-direction:column;gap:6px;transition:transform .15s}
+a.ci:hover{transform:translateY(-3px)}
+.ci .cap{font-size:11.5px;font-weight:700;color:var(--ink-2);padding-left:2px}
+.ci.off .cover{background:none;box-shadow:none;border:1.5px dashed #C4D3D0;color:#6B7C86;align-items:center;justify-content:center;gap:4px}
+.ci.off .cap{color:var(--off);font-weight:600}
+
+/* latest issue card */
+.latest{display:flex;gap:14px;padding:12px;border-top:4px solid var(--green)}
+.latest .cover{width:100px;flex:none}
+.latest .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.latest .mon{font-size:12.5px;font-weight:800;color:var(--orange-t)}
+.latest .theme{font-family:var(--serif);font-size:19px;line-height:1.3;font-weight:700}
+/* year cards & tabs */
+.years{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.ycard{display:flex;flex-direction:column;justify-content:center;gap:6px;padding:14px;min-height:84px;border-radius:18px;background:var(--surface);border:1.5px solid var(--line-2)}
+.ycard:hover{border-color:var(--green)}
+.ycard b{font-size:26px;font-weight:800;line-height:1;font-family:'Plus Jakarta Sans',sans-serif}
+.ycard span{font-size:12px;color:var(--muted)}
+.ycard.on{background:var(--green);border-color:var(--green);color:#fff;box-shadow:inset 0 -5px 0 var(--orange)}
+.ycard.on span{color:#E6F5F1}
+.seg{display:flex;gap:6px;padding:4px;background:var(--mint-2);border-radius:14px;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg a{flex:1 0 auto;min-width:72px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-size:15px;font-weight:700;padding:0 14px;font-family:'Plus Jakarta Sans',sans-serif}
+.seg a.on{background:var(--green);color:#fff;font-weight:800;box-shadow:inset 0 -3px 0 var(--orange)}
+/* issue header */
+.ihead{display:flex;gap:16px;align-items:stretch;padding:16px;border-radius:22px;background:var(--green);color:#fff;box-shadow:inset 0 -6px 0 var(--orange)}
+.ihead .cover{width:96px;flex:none}
+.ihead .k{font-size:11px;font-weight:800;letter-spacing:.08em;color:#FFD3A8}
+.ihead h1{font-family:var(--serif);font-size:21px;line-height:1.3;font-weight:700;margin:6px 0}
+.ihead .meta{font-size:12.5px;color:#E6F5F1}
+.ihead .src{font-size:12px;color:#E6F5F1;margin-top:6px}
+.glance{padding:0 14px}
+.glance summary{min-height:50px;display:flex;align-items:center;justify-content:space-between;font-size:14.5px;font-weight:800;cursor:pointer;list-style:none}
+.glance summary::-webkit-details-marker{display:none}
+.glance summary span{font-size:12px;font-weight:700;color:var(--orange-t)}
+.glance ol{margin:0 0 14px;padding-left:20px;font-size:14px;line-height:1.65;color:var(--ink-2)}
+/* prev/next */
+.pn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pn a,.pn div{min-height:52px;display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line-2);font-size:13px;font-weight:700;color:var(--green)}
+.pn a:hover{border-color:var(--green)}
+.pn .nx{justify-content:flex-end;text-align:right}
+.pn div{border-style:dashed;border-color:#C4D3D0;background:none;color:#6B7C86}
+.pn small{display:block;font-size:10.5px;font-weight:600;color:var(--muted)}
+.pn .lab{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+/* chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line-2);background:var(--surface);font-size:12.5px;font-weight:700;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip em{font-style:normal;opacity:.75;margin-left:4px}
+/* table of contents */
+.toc{display:flex;flex-direction:column;gap:12px}
+.ti{display:flex;gap:14px;padding:16px;border-top:4px solid var(--green)}
+.ti .no{font-family:'Source Serif 4',Georgia,serif;font-size:28px;font-weight:700;line-height:1;color:var(--orange-t);width:38px;flex:none}
+.ti .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.ti .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ti h3{font-size:16.5px;line-height:1.4;font-weight:800}
+.ti .by{font-size:12.5px;color:var(--muted)}
+.ti p{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.ti .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px}
+.facts{background:var(--mint);border-radius:12px;padding:10px 12px}
+.facts .k,.kp-title{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--orange-t);margin-bottom:4px}
+.facts ul{margin:0;padding-left:17px;font-size:13px;line-height:1.6}
+.rel{font-size:11.5px;font-weight:700;color:var(--orange-ink);background:var(--peach);padding:4px 10px;border-radius:999px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 16px;border-radius:12px;background:var(--green);color:#fff;font-size:13.5px;font-weight:700;border:0}
+.btn:hover{background:var(--green-d)}
+.btn.ghost{background:var(--surface);color:var(--green);border:1.5px solid var(--line-2)}
+.cat{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.k0{background:var(--mint-2);color:var(--green-d)}.k1{background:var(--sky);color:var(--blue)}.k2{background:#E8E4F6;color:#3D2E7A}
+.k3{background:var(--peach);color:var(--orange-ink)}.k4{background:#E2F3DD;color:#2D5A1E}.k5{background:#DDF0F6;color:#0E5068}.k6{background:#F6E2E6;color:#7A2335}
+/* reader */
+.reader{display:flex;flex-direction:column;gap:14px}
+.reader-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.reader h1.hl{font-family:var(--serif);font-size:26px;line-height:1.32;font-weight:700}
+.reader h1.hl::after{content:"";display:block;width:72px;height:5px;border-radius:3px;background:var(--orange);margin-top:12px}
+.author{display:flex;align-items:center;gap:10px}
+.author .av{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}
+.author b{display:block;font-size:13.5px}
+.author span{font-size:12px;color:var(--muted)}
+.reader-wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.frame-box{flex:999 1 520px;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--green);border-radius:var(--r-lg);overflow:hidden}
+.frame-box iframe{display:block;width:100%;height:70vh;min-height:240px;border:0}
+.aside{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.kp{background:var(--mint);border:1px solid #CDEBE3;border-radius:var(--r-lg);padding:16px}
+.kp ol{margin:0;padding-left:20px;font-size:14px;line-height:1.65}
+.exam{background:var(--peach);color:#5C2E00;border-radius:var(--r-lg);padding:14px 16px;font-size:13.5px;line-height:1.55}
+.exam b{display:block;font-size:10.5px;letter-spacing:.08em;margin-bottom:2px}
+.more a{display:block;padding:10px 12px;border-radius:12px;background:var(--bg);min-height:44px}
+.more a:hover{background:var(--mint-2)}
+.more a b{display:block;font-size:13.5px}
+.more a span{font-size:12px;color:var(--muted)}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:40px;color:var(--muted)}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--line-2);border-top-color:var(--green);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.fade{animation:fd .25s ease}
+@keyframes fd{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+mark{background:#FFE1B8;color:inherit;border-radius:3px;padding:0 1px}
+.footer{padding:20px 16px 24px;text-align:center;font-size:12px;line-height:1.6;color:#E6F5F1;border-top:4px solid var(--orange);background:var(--green)}
+.footer b{color:#fff}
+.footer .srclogo{display:block;margin:0 auto 8px;height:34px;width:auto}
+
+@media (min-width:560px){
+  .covers{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .hero{padding:26px 28px}
+  .hero h1{font-size:30px}
+  .ihead .cover{width:120px}
+  .ihead h1{font-size:26px}
+}
+@media (min-width:1024px){
+  .side{display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh;overflow-y:auto;width:256px;flex:none;background:var(--green-d);color:#fff;padding:22px 14px}
+  .side .brand{padding:0 8px}
+  .side .brand small{color:#FFC48F}
+  .snav{display:flex;flex-direction:column;gap:4px}
+  .snav a{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:12px;color:#DDF2EC;font-size:14px;font-weight:600}
+  .snav a:hover{background:rgba(255,255,255,.08)}
+  .snav a.on{background:var(--orange);color:var(--blue);font-weight:800}
+  .sdiv{height:1px;background:rgba(255,255,255,.22)}
+  .stitle{padding:0 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#FFC48F}
+  .tree a{display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:700;color:#DDF2EC}
+  .tree a:hover{background:rgba(255,255,255,.08)}
+  .tree a.on{color:#fff;font-weight:800}
+  .tree a.m{margin-left:12px;font-size:13.5px;font-weight:600}
+  .tree a.m.on{background:var(--orange);color:var(--blue)}
+  .tree small{font-size:12px;opacity:.85}
+  .topbar .brand{display:none}
+  .topbar{padding:0 24px;height:64px}
+  .crumbs{padding:10px 28px}
+  .view{padding:26px 28px 40px;gap:22px}
+  .covers{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+  .reader h1.hl{font-size:34px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Yojana wordmark (government font) ---------- */
+.wordmark{position:relative;display:inline-block;font-family:var(--gov);font-weight:800;font-size:15px;letter-spacing:.18em;color:#fff;margin-bottom:2px}
+html[lang="te"] .wordmark{letter-spacing:.04em;font-size:17px}
+.latest .mon .gov,.ihead .gov{font-family:var(--gov)}
+
+/* ---------- compact top bar so the title keeps room next to the language switch ---------- */
+@media (max-width:1023px){.topbar{gap:2px;padding:0 6px 0 10px}.topbar .icon-btn{width:40px}.lang a{min-width:34px;padding:0 8px}}
+html[lang="te"] .tb-title b{letter-spacing:0}
+
+/* ---------- brand: logo stays on inner pages, name hides ---------- */
+.brand.compact>span:last-child{display:none}
+.brand.compact{margin-right:2px}
+
+/* ---------- full-screen issue ---------- */
+body.fullday-on{overflow:hidden}
+iframe.fullday{position:fixed;left:0;right:0;bottom:0;top:61px;width:100%;height:calc(100% - 61px);border:0;background:var(--surface);z-index:10}
+@media (min-width:1024px){iframe.fullday{top:67px;height:calc(100% - 67px);left:256px;width:calc(100% - 256px)}}
+
+/* ---------- dark theme (follows the phone setting; the moon/sun button overrides it) ---------- */
+html[data-theme="dark"]{color-scheme:dark;
+  --green:#148A7F; --green-d:#7FE3D4; --orange-ink:#FFC48F; --orange-t:#FFA85C; --blue:#1F4E78; --blue-2:#6FA8D6;
+  --bg:#0D1A1F; --mint:#13262B; --mint-2:#183A3C; --line:#223D40; --line-2:#2F5558;
+  --card:#15262C; --peach:#3A2A18; --sky:#1B3045; --ink:#E7F1F4; --ink-2:#B7C8D1; --muted:#9AABB5; --off:#7D8E98;
+  --surface:#15262C; --surface-glass:rgba(13,26,31,.97);}
+html[data-theme="dark"] .side{background:#0A2F2C}
+html[data-theme="dark"] .btn:hover{background:#0F766E}
+html[data-theme="dark"] .k2{background:#2A2650;color:#CFC6FF}
+html[data-theme="dark"] .k4{background:#1E3A22;color:#B5E8A6}
+html[data-theme="dark"] .k5{background:#16384A;color:#9ADBF2}
+html[data-theme="dark"] .k6{background:#4A2530;color:#F5B8C6}
+html[data-theme="dark"] .note,html[data-theme="dark"] .exam{color:#FFD9B3}
+html[data-theme="dark"] mark{background:#6B4A12;color:#fff}
+.theme-btn svg{display:none}
+html:not([data-theme="dark"]) .theme-btn .i-moon{display:block}
+html[data-theme="dark"] .theme-btn .i-sun{display:block}
+</style>
+</head>
+<body>
+<a class="sr" href="#view">Skip to content</a>
+<div class="shell">
+  <aside class="side" aria-label="Sidebar">
+    <a class="brand" href="#/" data-home>
+      <span class="logo-slot"></span>
+      <span><b>VibhillionAI</b><small>Yojana Notes</small></span>
+    </a>
+    <nav class="snav" aria-label="Primary" id="snav"></nav>
+    <div class="sdiv"></div>
+    <div class="stitle" id="stitle">YEARS</div>
+    <nav class="tree" id="tree" aria-label="Archive"></nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <a class="brand" href="#/" id="tbBrand" data-home>
+        <span class="logo-slot"></span>
+        <span><b>VibhillionAI</b><small>Yojana Notes</small></span>
+      </a>
+      <a class="icon-btn" id="backBtn" href="#/" aria-label="Back" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+      <div class="tb-title" id="tbTitle"></div>
+      <div class="spacer" id="tbSpacer"></div>
+      <nav class="lang" id="langSw" aria-label="Edition language"></nav>
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Dark / Light" title="Dark / Light"><svg class="i-moon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <a class="icon-btn" id="searchBtn" href="#/" aria-label="Search"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+    </header>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+    <main class="view" id="view" tabindex="-1"></main>
+    <footer class="footer" id="footer"></footer>
+  </div>
+</div>
+
+<!-- content-index.json is written by build-index.py on every deploy and fetched from siteBase -->
+<script>
+(function(){
+  var root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]'), mq=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)');
+  function paint(){ if(meta) meta.setAttribute('content', root.getAttribute('data-theme')==='dark'?'#0D1A1F':'#0F766E');
+    var fr=document.getElementById('frame'); if(fr&&fr.contentWindow){ try{fr.contentWindow.postMessage({yjTheme:root.getAttribute('data-theme')==='dark'?'dark':'light'},'*');}catch(e){} } }
+  function setTheme(t,save){ if(t==='dark') root.setAttribute('data-theme','dark'); else root.removeAttribute('data-theme'); paint();
+    if(save){ try{localStorage.setItem('yj_theme',t);}catch(e){} } }
+  paint();
+  document.getElementById('themeBtn').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark',true); });
+  if(mq&&mq.addEventListener) mq.addEventListener('change',function(e){ var sv=null; try{sv=localStorage.getItem('yj_theme');}catch(_){} if(!sv) setTheme(e.matches?'dark':'light',false); });
+})();
+</script>
+<script>
+(function(){
+'use strict';
+/* ============ CONFIG ============ */
+var CONFIG = {
+  siteBase: 'https://aivibhillion.github.io/Yojana/',   // link of your GitHub Pages site (Settings -> Pages). Needed because this code is pasted inside the app
+  indexJson: 'content-index.json',    // written by build-index.py on every deploy
+  defaultLang: 'en',                  // 'en' or 'te' — first visit opens this edition
+  logoSrc: 'data:image/jpeg;base64,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'   // VibhillionAI logo (embedded, so it works when pasted inside the app)
+};
+
+/* ============ UI text (English / Telugu) ============ */
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var T = {
+  en:{
+    name:'Yojana', title:'Yojana Magazine Analysis', pill:'MONTHLY MAGAZINE',
+    heroP:'Every issue of Yojana, article by article, as exam-focused notes for UPSC, APPSC, TGPSC and other competitive exams.',
+    years:'Years', issues:'Issues', articles:'Articles', issue:'issue',
+    searchT:'Search', search:'Search theme, article, month or year', hint:'Try: <em>rural</em>, <em>Economy</em>, <em>October 2026</em>',
+    latest:'Latest issue', open:'Open issue', browse:'Browse by year', allIssues:'All issues', recent:'Recently added', viewed:'Continue reading',
+    selYear:'Select issue', inYear:'Issues in', pub:'published', of:'of', soon:'Coming soon', notYet:'Not yet added',
+    themeOf:'THEME OF THE ISSUE', glance:'Theme at a glance', points:'points', inIssue:'In this issue', all:'All',
+    prevI:'Previous issue', nextI:'Next issue', read:'Read', readArt:'Read article', min:'min read', by:'By',
+    fullIssue:'Open full issue page', keyPts:'KEY POINTS', keyFacts:'KEY FACTS', exam:'EXAM RELEVANCE',
+    article:'Article', moreIn:'More in this issue', prevA:'Previous', nextA:'Next article', backList:'Back to contents',
+    results:'results', result:'result', noMatch:'No articles match', typeQ:'Type a keyword, month or year and press Enter.',
+    notFound:'This page is not in the archive yet.', goHome:'Go to the archive home', edition:'English edition',
+    home:'Home', hub:'Material Hub', yojana:'Yojana', loading:'Loading archive…', none:'No issues yet. Add an issue file and run build-index.py.',
+    source:'Source', devMonthly:'A Development Monthly',
+    footer:'Notes based on articles from <i>Yojana</i>, published by Publications Division, Ministry of Information &amp; Broadcasting, Government of India. VibhillionAI’s independent study notes, not an official publication.'
+  },
+  te:{
+    name:'యోజన', title:'యోజన మ్యాగజైన్ విశ్లేషణ', pill:'మాస పత్రిక',
+    heroP:'యోజన ప్రతి సంచికను ఆర్టికల్ వారీగా UPSC, APPSC, TGPSC పోటీ పరీక్షలకు ఉపయోగపడే నోట్స్‌గా అందిస్తున్నాం.',
+    years:'సంవత్సరాలు', issues:'సంచికలు', articles:'ఆర్టికల్స్', issue:'సంచిక',
+    searchT:'వెతకండి', search:'థీమ్, ఆర్టికల్, నెల లేదా సంవత్సరం వెతకండి', hint:'ఉదా: <em>గ్రామీణ</em>, <em>ఎకానమీ</em>, <em>అక్టోబర్ 2026</em>',
+    latest:'తాజా సంచిక', open:'సంచిక చూడండి', browse:'సంవత్సరం వారీగా', allIssues:'అన్ని సంచికలు', recent:'ఇటీవల చేర్చినవి', viewed:'చదవడం కొనసాగించండి',
+    selYear:'సంచిక ఎంచుకోండి', inYear:'సంచికలు –', pub:'అందుబాటులో', of:'/', soon:'త్వరలో', notYet:'ఇంకా చేర్చలేదు',
+    themeOf:'ఈ సంచిక థీమ్', glance:'థీమ్ ముఖ్యాంశాలు', points:'పాయింట్లు', inIssue:'ఈ సంచికలో', all:'అన్నీ',
+    prevI:'గత సంచిక', nextI:'తదుపరి సంచిక', read:'చదవండి', readArt:'ఆర్టికల్ చదవండి', min:'ని. చదవడం', by:'రచయిత:',
+    fullIssue:'పూర్తి సంచిక పేజీ', keyPts:'ముఖ్యాంశాలు', keyFacts:'ముఖ్య వాస్తవాలు', exam:'పరీక్షా ప్రాధాన్యం',
+    article:'ఆర్టికల్', moreIn:'ఈ సంచికలో ఇంకా', prevA:'గతది', nextA:'తదుపరి ఆర్టికల్', backList:'విషయ సూచికకు',
+    results:'ఫలితాలు', result:'ఫలితం', noMatch:'దీనికి సరిపోయే ఆర్టికల్స్ లేవు', typeQ:'పదం, నెల లేదా సంవత్సరం టైప్ చేసి Enter నొక్కండి.',
+    notFound:'ఈ పేజీ ఇంకా ఆర్కైవ్‌లో లేదు.', goHome:'ఆర్కైవ్ హోమ్‌కు వెళ్ళండి', edition:'తెలుగు ఎడిషన్',
+    home:'హోమ్', hub:'మెటీరియల్ హబ్', yojana:'యోజన', loading:'ఆర్కైవ్ లోడ్ అవుతోంది…', none:'ఇంకా సంచికలు లేవు.',
+    source:'మూలం', devMonthly:'అభివృద్ధి మాస పత్రిక',
+    footer:'<i>యోజన</i> (Yojana) పత్రికలోని ఆర్టికల్స్ ఆధారంగా తయారుచేసిన నోట్స్. ప్రచురణ: Publications Division, Ministry of Information &amp; Broadcasting, Government of India. ఇవి VibhillionAI స్వతంత్ర స్టడీ నోట్స్ మాత్రమే, అధికారిక ప్రచురణ కాదు.'
+  }
+};
+var MONTHS_TE = ['జనవరి','ఫిబ్రవరి','మార్చి','ఏప్రిల్','మే','జూన్','జూలై','ఆగస్టు','సెప్టెంబర్','అక్టోబర్','నవంబర్','డిసెంబర్'];
+var MON3 = {en:function(i){return MONTHS[i].slice(0,3).toUpperCase();}, te:function(i){return MONTHS_TE[i];}};
+
+/* ============ helpers ============ */
+var $ = function(s,r){return (r||document).querySelector(s);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+var LANG = CONFIG.defaultLang, L = T[LANG];
+function mName(i){return LANG==='te'?MONTHS_TE[i]:MONTHS[i];}
+function catCls(c){var h=0;for(var i=0;i<c.length;i++)h=(h*31+c.charCodeAt(i))>>>0;return 'k'+(h%7);}
+var ICON = {
+  chev:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>',
+  back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  down:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
+  search:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+  clock:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  ext:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  home:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+  hub:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  mag:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h10l6 6v10H4z"/><path d="M14 4v6h6"/><path d="M8 14h8M8 17h5"/></svg>'
+};
+/* VibhillionAI logo: real image when available, built-in mark as fallback */
+var MARK = '<svg viewBox="0 0 32 32" role="img" aria-label="VibhillionAI"><rect width="32" height="32" rx="9" fill="#0F766E"/><path d="M8 10l8 14 8-14" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="8" r="3" fill="#FF8A24"/></svg>';
+document.querySelectorAll('.logo-slot').forEach(function(n){
+  if(!CONFIG.logoSrc){ n.outerHTML=MARK; return; }
+  var img=new Image(); img.alt='VibhillionAI'; img.width=36; img.height=36;
+  img.onerror=function(){ var s=document.createElement('span'); s.innerHTML=MARK; img.replaceWith(s.firstChild); };
+  img.src=CONFIG.logoSrc; n.replaceWith(img);
+});
+var store = {
+  get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},
+  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+
+/* ============ data ============
+   INDEX: { editions:{ en:{ "2026":{ "October":{ path, theme, glance:[...], articles:[{id,title,summary,category,author,facts,relevance,readMin}] } } }, te:{...} } } */
+var INDEX=null, ISS={en:[],te:[]};
+function buildFlat(){
+  ['en','te'].forEach(function(lg){
+    var ed=(INDEX.editions||{})[lg]||{}, out=[];
+    Object.keys(ed).forEach(function(y){
+      Object.keys(ed[y]).forEach(function(m){
+        var mi=MONTHS.indexOf(m); if(mi<0) return;
+        var e=ed[y][m];
+        out.push({lang:lg,y:y,m:m,mi:mi,sort:(+y)*12+mi,path:CONFIG.siteBase+e.path,theme:e.theme||'',glance:e.glance||[],
+          articles:(e.articles||[]).map(function(a,i){a.id=a.id||('a'+(i+1));return a;})});
+      });
+    });
+    out.sort(function(a,b){return b.sort-a.sort;});
+    ISS[lg]=out;
+  });
+}
+function list(){return ISS[LANG];}
+function years(){var s={};list().forEach(function(x){s[x.y]=1;});return Object.keys(s).sort(function(a,b){return b-a;});}
+function ofYear(y){return list().filter(function(x){return x.y===y;});}
+function find(y,m){var l=list();for(var i=0;i<l.length;i++)if(l[i].y===y&&l[i].m===m)return {x:l[i],i:i};return null;}
+function base(){return '#/'+LANG;}
+function issueHref(x){return '#/'+x.lang+'/'+x.y+'/'+x.m;}
+function label(x){return mName(x.mi)+' '+x.y;}
+function cntA(n){return n+' '+L.articles;}
+function addRecent(x,a){
+  var k='yj_recent_'+LANG, r=store.get(k,[]).filter(function(o){return !(o.y===x.y&&o.m===x.m&&o.id===a.id);});
+  r.unshift({y:x.y,m:x.m,id:a.id,h:a.title});
+  store.set(k,r.slice(0,8));
+}
+function cover(x,big){
+  var c='c'+(x.mi%5);
+  return '<div class="cover '+c+(big?' lg':'')+(x.lang==='te'?' te':'')+'"><span class="mh'+(x.lang==='te'?' te':'')+'">'+(x.lang==='te'?'యోజన':'YOJANA')+'</span>'+
+    '<span class="deco" aria-hidden="true"></span><span class="mo">'+esc(MON3[x.lang](x.mi))+'</span>'+
+    '<span class="th">'+esc(x.theme)+'</span></div>';
+}
+
+/* ============ chrome ============ */
+var view=$('#view');
+function setChrome(o){
+  document.documentElement.lang=LANG;
+  $('#tbTitle').innerHTML = o.title ? '<b>'+esc(o.title)+'</b>'+(o.sub?'<small>'+esc(o.sub)+'</small>':'') : '';
+  $('#tbTitle').hidden=!o.title; $('#tbSpacer').hidden=!!o.title;
+  var back=$('#backBtn'); if(o.back){back.hidden=false;back.setAttribute('href',o.back);} else back.hidden=true;
+  $('#tbBrand').classList.toggle('compact',!!o.back);   // logo stays; only the name hides on inner pages
+  $('#searchBtn').setAttribute('href',base()+'/search');
+  document.querySelectorAll('[data-home]').forEach(function(a){a.setAttribute('href',base());});
+  // language switch keeps the same page when the other edition has it
+  var rest=o.same||'';
+  $('#langSw').innerHTML=['en','te'].map(function(lg){
+    var target='#/'+lg+rest;
+    if(rest&&rest.indexOf('/search')!==0){var p=rest.split('/').filter(Boolean); if(p.length>=2&&!ISS[lg].some(function(x){return x.y===p[0]&&x.m===p[1];})) target='#/'+lg; else if(p.length===1&&!ISS[lg].some(function(x){return x.y===p[0];})) target='#/'+lg;}
+    return '<a href="'+target+'" class="'+lg+(lg===LANG?' on':'')+'" lang="'+lg+'" aria-current="'+(lg===LANG)+'" title="'+T[lg].edition+'">'+(lg==='en'?'EN':'తె')+'</a>';
+  }).join('');
+  var c=[[L.name,base()]].concat(o.crumbs||[]);
+  $('#crumbs').innerHTML = o.crumbs ? c.map(function(it,i){var last=i===c.length-1;
+    return (i?'<span aria-hidden="true">›</span>':'')+(last?'<span class="here" aria-current="page">'+esc(it[0])+'</span>':'<a href="'+it[1]+'">'+esc(it[0])+'</a>');}).join('') : '';
+  $('#crumbs').hidden=!o.crumbs;
+  $('#snav').innerHTML='<a href="'+base()+'">'+ICON.home+esc(L.home)+'</a><a class="on" href="'+base()+'">'+ICON.mag+esc(L.yojana)+'</a>';
+  $('#stitle').textContent=L.issues.toUpperCase();
+  renderTree(o.y,o.m);
+  $('#footer').innerHTML='© vibhillionai · Material prepared by <b>VibhillionAI Team</b><br><span>'+L.footer+'</span>';
+  document.title=(o.title?o.title+' · ':'')+L.title+' · VibhillionAI';
+}
+function renderTree(selY,selM){
+  var h='';
+  years().forEach(function(y,i){
+    var open=selY?y===selY:i===0;
+    h+='<a href="'+base()+'/'+y+'" class="'+(y===selY?'on':'')+'">'+y+(open?ICON.down:ICON.chev)+'</a>';
+    if(open) ofYear(y).forEach(function(x){h+='<a class="m'+(x.m===selM&&y===selY?' on':'')+'" href="'+issueHref(x)+'">'+esc(mName(x.mi))+'<small>'+x.articles.length+'</small></a>';});
+  });
+  $('#tree').innerHTML=h;
+}
+function searchBox(v){
+  return '<form class="search" role="search" onsubmit="return false"><label>'+ICON.search+'<span class="sr">'+esc(L.search)+'</span>'+
+    '<input id="q" type="search" autocomplete="off" value="'+esc(v||'')+'" placeholder="'+esc(L.search)+'"></label><div class="hint">'+L.hint+'</div></form>';
+}
+function bindSearch(){var q=$('#q');if(q)q.addEventListener('keydown',function(e){if(e.key==='Enter')location.hash=base()+'/search/'+encodeURIComponent(q.value.trim());});}
+function pn(prev,next,pl,nl){
+  return '<div class="pn">'+
+   (prev?'<a href="'+prev[0]+'">'+ICON.back+'<span class="lab"><small>'+esc(pl)+'</small>'+esc(prev[1])+'</span></a>':'<div>'+ICON.back+'<span class="lab"><small>'+esc(pl)+'</small>—</span></div>')+
+   (next?'<a class="nx" href="'+next[0]+'"><span class="lab"><small>'+esc(nl)+'</small>'+esc(next[1])+'</span>'+ICON.chev+'</a>':'<div class="nx"><span class="lab"><small>'+esc(nl)+'</small>'+esc(L.notYet)+'</span>'+ICON.chev+'</div>')+'</div>';
+}
+function tocItem(x,a,n,qre){
+  var t=qre?esc(a.title).replace(qre,'<mark>$1</mark>'):esc(a.title), f=(a.facts||[]).slice(0,3);
+  return '<article class="card ti" data-cat="'+esc(a.category)+'"><span class="no">'+(n<10?'0':'')+n+'</span><div class="body">'+
+    '<div class="top"><span class="cat '+catCls(a.category)+'">'+esc(a.category)+'</span><span class="sub">'+(a.readMin?a.readMin+' '+esc(L.min):'')+'</span>'+(qre?'<span class="sub">· '+esc(label(x))+'</span>':'')+'</div>'+
+    '<h3><a href="'+issueHref(x)+'">'+t+'</a></h3>'+(a.author?'<span class="by">'+esc(L.by)+' '+esc(a.author)+'</span>':'')+(a.summary?'<p>'+esc(a.summary)+'</p>':'')+
+    (f.length?'<div class="facts"><div class="k">'+esc(L.keyFacts)+'</div><ul>'+f.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul></div>':'')+
+    '<div class="foot">'+(a.relevance?'<span class="rel">'+esc(a.relevance)+'</span>':'<span></span>')+'</div></div></article>';
+}
+
+/* ============ screens ============ */
+function sHome(){
+  setChrome({same:''});
+  var l=list(), nA=0; l.forEach(function(x){nA+=x.articles.length;});
+  var x=l[0], ys=years();
+  var rec=store.get('yj_recent_'+LANG,[]).filter(function(o){return find(o.y,o.m);}).slice(0,4);
+  view.innerHTML=
+  '<section class="hero fade"><div class="orb" aria-hidden="true"></div><div class="mag" aria-hidden="true"></div><div class="mag2" aria-hidden="true"></div>'+
+   '<span class="wordmark">'+(LANG==='te'?'యోజన':'YOJANA')+'</span><br><span class="pill or" style="position:relative">'+esc(L.pill)+'</span><h1>'+esc(L.title)+'</h1><p>'+esc(L.heroP)+'</p>'+
+   '<div class="stats"><div class="stat"><b>'+ys.length+'</b><span>'+esc(L.years)+'</span></div><div class="stat"><b>'+l.length+'</b><span>'+esc(L.issues)+'</span></div><div class="stat"><b>'+nA+'</b><span>'+esc(L.articles)+'</span></div></div></section>'+
+  searchBox()+
+  (x?'<section class="stack"><div class="sec-head"><h2>'+esc(L.latest)+'</h2></div>'+
+    '<a class="card latest" href="'+issueHref(x)+'">'+cover(x)+'<div class="info"><span class="mon">'+esc(label(x))+'</span><span class="theme">'+esc(x.theme)+'</span>'+
+    '<span class="sub">'+cntA(x.articles.length)+'</span><span class="btn" style="align-self:flex-start;margin-top:auto">'+esc(L.open)+' '+ICON.chev+'</span></div></a></section>':'<div class="empty">'+esc(L.none)+'</div>')+
+  (ys.length?'<section class="stack"><div class="sec-head"><h2>'+esc(L.browse)+'</h2><a class="link" href="'+base()+'/'+ys[0]+'">'+esc(L.allIssues)+'</a></div><div class="years">'+
+    ys.map(function(y,i){return '<a class="ycard'+(i===0?' on':'')+'" href="'+base()+'/'+y+'"><b>'+y+'</b><span>'+ofYear(y).length+' '+esc(L.issues)+'</span></a>';}).join('')+'</div></section>':'')+
+  (l.length>1?'<section class="stack"><div class="sec-head"><h2>'+esc(L.recent)+'</h2></div><div class="covers">'+
+    l.slice(0,4).map(function(x){return '<a class="ci" href="'+issueHref(x)+'">'+cover(x)+'<span class="cap">'+esc(label(x))+'</span></a>';}).join('')+'</div></section>':'')+
+  (rec.length?'<section class="stack"><div class="sec-head"><h2>'+esc(L.viewed)+'</h2></div>'+rec.map(function(o){
+    return '<a class="row" href="'+base()+'/'+o.y+'/'+o.m+'/'+o.id+'"><span class="ico">'+ICON.clock+'</span><div class="t"><b>'+esc(o.h)+'</b><span>'+esc(mName(MONTHS.indexOf(o.m))+' '+o.y)+'</span></div></a>';}).join('')+'</section>':'');
+  bindSearch();
+}
+function sYear(y){
+  if(!ofYear(y).length) return nf();
+  setChrome({title:L.selYear,sub:L.name+' · '+y,back:base(),y:y,same:'/'+y,crumbs:[[y,base()+'/'+y]]});
+  var have=ofYear(y);
+  view.innerHTML='<div class="seg" role="tablist">'+years().map(function(yy){return '<a role="tab" aria-selected="'+(yy===y)+'" class="'+(yy===y?'on':'')+'" href="'+base()+'/'+yy+'">'+yy+'</a>';}).join('')+'</div>'+
+   '<div class="sec-head"><h2>'+esc(L.inYear)+' '+y+'</h2><span class="sub">'+have.length+' '+esc(L.of)+' 12 '+esc(L.pub)+'</span></div>'+
+   '<div class="covers fade">'+MONTHS.map(function(m,i){
+      var x=have.filter(function(z){return z.m===m;})[0];
+      if(x) return '<a class="ci" href="'+issueHref(x)+'">'+cover(x)+'<span class="cap">'+esc(mName(i))+' · '+cntA(x.articles.length)+'</span></a>';
+      return '<div class="ci off" aria-disabled="true"><div class="cover'+(LANG==='te'?' te':'')+'"><span class="mo">'+esc(MON3[LANG](i))+'</span><span class="sub">'+esc(L.soon)+'</span></div><span class="cap">'+esc(mName(i))+'</span></div>';
+   }).join('')+'</div>';
+}
+function sFull(y,m){
+  var f=find(y,m); if(!f) return nf();
+  var x=f.x;
+  setChrome({title:label(x),sub:L.name+' · '+L.edition,back:base()+'/'+y,y:y,m:m,same:'/'+y+'/'+m,crumbs:[[y,base()+'/'+y],[mName(x.mi),issueHref(x)]]});
+  document.body.classList.add('fullday-on');
+  view.innerHTML='<iframe class="fullday" id="frame" title="'+esc(label(x))+'" allowfullscreen></iframe>';
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';
+  $('#frame').src=x.path+(dark?'?theme=dark':'?theme=light');
+}
+function sSearch(q){
+  setChrome({title:L.searchT,sub:L.name,back:base(),same:'/search',crumbs:[[L.searchT,'#']]});
+  q=(q||'').trim(); var res=[], qre=null;
+  if(q){
+    var terms=q.toLowerCase().split(/\s+/); qre=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+    list().forEach(function(x){
+      var when=(MONTHS[x.mi]+' '+MONTHS_TE[x.mi]+' '+x.y+' '+x.theme).toLowerCase();
+      x.articles.forEach(function(a){
+        var txt=(when+' '+a.title+' '+(a.summary||'')+' '+a.category+' '+(a.author||'')+' '+(a.facts||[]).join(' ')+' '+(a.relevance||'')).toLowerCase();
+        if(terms.every(function(t){return txt.indexOf(t)>=0;})) res.push([x,a,x.articles.indexOf(a)+1]);
+      });
+    });
+  }
+  view.innerHTML=searchBox(q)+(!q?'<div class="empty">'+esc(L.typeQ)+'</div>':
+    '<section class="stack"><div class="sec-head"><h2>'+res.length+' '+esc(res.length===1?L.result:L.results)+'</h2></div>'+
+    (res.length?'<div class="toc">'+res.slice(0,60).map(function(r){return tocItem(r[0],r[1],r[2],qre);}).join('')+'</div>':'<div class="empty">'+esc(L.noMatch)+' “'+esc(q)+'”.</div>')+'</section>');
+  bindSearch();
+  var inp=$('#q'),tm; if(inp){ if(!q) inp.focus();
+    inp.addEventListener('input',function(){clearTimeout(tm);tm=setTimeout(function(){history.replaceState(null,'',base()+'/search/'+encodeURIComponent(inp.value.trim()));route(true);},350);});}
+}
+function nf(){setChrome({title:'—',back:base(),crumbs:[]});view.innerHTML='<div class="empty">'+esc(L.notFound)+' <a href="'+base()+'" style="color:var(--green);font-weight:700">'+esc(L.goHome)+'</a></div>';}
+
+/* ============ router ============
+   #/en  #/en/2026  #/en/2026/October  #/en/2026/October/a1  #/en/search/<q>   (same with te) */
+function route(keep){
+  var p=decodeURIComponent(location.hash.replace(/^#\/?/,'')).split('/').filter(Boolean);
+  if(p[0]!=='en'&&p[0]!=='te'){ location.replace('#/'+store.get('yj_lang',CONFIG.defaultLang)+(p.length?'/'+p.join('/'):'')); return; }
+  LANG=p.shift(); L=T[LANG]; store.set('yj_lang',LANG);
+  if(p[0]==='search'){ sSearch(p.slice(1).join('/')); if(!keep){var q=$('#q'); if(q){q.focus();var v=q.value;q.value='';q.value=v;}} return; }
+  document.body.classList.remove('fullday-on');
+  if(!keep) window.scrollTo(0,0);
+  if(!p.length) sHome(); else if(p.length===1) sYear(p[0]); else sFull(p[0],p[1]);   // an issue opens its HTML page full screen
+}
+window.addEventListener('hashchange',function(){route(false);});
+function boot(d){INDEX=d&&d.editions?d:{editions:{}};buildFlat();route(false);}
+view.innerHTML='<div class="loading"><span class="spin"></span>'+esc(L.loading)+'</div>';
+fetch(CONFIG.siteBase+CONFIG.indexJson,{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(boot)
+  .catch(function(){boot({editions:{}}); view.insertAdjacentHTML('afterbegin','<div class="note"><p style="margin:0">Could not load <b>content-index.json</b>. Check the internet connection, and that the <b>Actions</b> tab of the repo shows a green run of the Pages workflow.</p></div>');});
+})();
+</script>
+</body>
+</html>
