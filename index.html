@@ -561,7 +561,7 @@ function sFull(y,m,aid){
   view.innerHTML='<iframe class="fullday" id="frame" title="'+esc(label(x))+'" allowfullscreen></iframe>';
   var dark=document.documentElement.getAttribute('data-theme')==='dark';
   var ch=null; if(x.chap&&aid){x.articles.forEach(function(a){if(a.id===aid)ch=a;});}
-  if(ch) $('#frame').src=CONFIG.siteBase+ch.href;
+  if(ch) $('#frame').src=CONFIG.siteBase+ch.href+(dark?'?theme=dark':'?theme=light');
   else $('#frame').src=x.path+(dark?'?theme=dark':'?theme=light')+((aid&&aid!=='full'&&!x.chap)?'#'+aid:'');
 }
 function sSearch(q){
