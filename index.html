@@ -428,7 +428,7 @@ function buildFlat(){
       Object.keys(ed[y]).forEach(function(m){
         var mi=MONTHS.indexOf(m); if(mi<0) return;
         var e=ed[y][m];
-        out.push({lang:lg,y:y,m:m,mi:mi,sort:(+y)*12+mi,path:CONFIG.siteBase+e.path,theme:e.theme||'',glance:e.glance||[],
+        out.push({lang:lg,y:y,m:m,mi:mi,sort:(+y)*12+mi,path:CONFIG.siteBase+e.path,theme:e.theme||'',glance:e.glance||[],chap:!!e.chapters,
           articles:(e.articles||[]).map(function(a,i){a.id=a.id||('a'+(i+1));return a;})});
       });
     });
@@ -506,7 +506,7 @@ function tocItem(x,a,n,qre){
   var t=qre?esc(a.title).replace(qre,'<mark>$1</mark>'):esc(a.title), f=(a.facts||[]).slice(0,3);
   return '<article class="card ti" data-cat="'+esc(a.category)+'"><span class="no">'+(n<10?'0':'')+n+'</span><div class="body">'+
     '<div class="top"><span class="cat '+catCls(a.category)+'">'+esc(a.category)+'</span><span class="sub">'+(a.readMin?a.readMin+' '+esc(L.min):'')+'</span>'+(qre?'<span class="sub">· '+esc(label(x))+'</span>':'')+'</div>'+
-    '<h3><a href="'+issueHref(x)+'">'+t+'</a></h3>'+(a.author?'<span class="by">'+esc(L.by)+' '+esc(a.author)+'</span>':'')+(a.summary?'<p>'+esc(a.summary)+'</p>':'')+
+    '<h3><a href="'+issueHref(x)+'/'+esc(a.id)+'">'+t+'</a></h3>'+(a.author?'<span class="by">'+esc(L.by)+' '+esc(a.author)+'</span>':'')+(a.summary?'<p>'+esc(a.summary)+'</p>':'')+
     (f.length?'<div class="facts"><div class="k">'+esc(L.keyFacts)+'</div><ul>'+f.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul></div>':'')+
     '<div class="foot">'+(a.relevance?'<span class="rel">'+esc(a.relevance)+'</span>':'<span></span>')+'</div></div></article>';
 }
@@ -545,14 +545,24 @@ function sYear(y){
       return '<div class="ci off" aria-disabled="true"><div class="cover'+(LANG==='te'?' te':'')+'"><span class="mo">'+esc(MON3[LANG](i))+'</span><span class="sub">'+esc(L.soon)+'</span></div><span class="cap">'+esc(mName(i))+'</span></div>';
    }).join('')+'</div>';
 }
-function sFull(y,m){
+function sIssue(y,m){
   var f=find(y,m); if(!f) return nf();
   var x=f.x;
   setChrome({title:label(x),sub:L.name+' · '+L.edition,back:base()+'/'+y,y:y,m:m,same:'/'+y+'/'+m,crumbs:[[y,base()+'/'+y],[mName(x.mi),issueHref(x)]]});
+  view.innerHTML='<section class="stack fade"><div class="sec-head"><h2>'+esc(x.theme||label(x))+'</h2><span class="sub">'+cntA(x.articles.length)+'</span></div>'+
+    (x.chap?'':'<a class="btn" style="align-self:flex-start" href="'+issueHref(x)+'/full">'+esc(L.fullIssue)+' '+ICON.chev+'</a>')+'</section>'+
+    '<section class="stack">'+x.articles.map(function(a,i){return tocItem(x,a,i+1);}).join('')+'</section>';
+}
+function sFull(y,m,aid){
+  var f=find(y,m); if(!f) return nf();
+  var x=f.x;
+  setChrome({title:label(x),sub:L.name+' · '+L.edition,back:issueHref(x),y:y,m:m,same:'/'+y+'/'+m,crumbs:[[y,base()+'/'+y],[mName(x.mi),issueHref(x)]]});
   document.body.classList.add('fullday-on');
   view.innerHTML='<iframe class="fullday" id="frame" title="'+esc(label(x))+'" allowfullscreen></iframe>';
   var dark=document.documentElement.getAttribute('data-theme')==='dark';
-  $('#frame').src=x.path+(dark?'?theme=dark':'?theme=light');
+  var ch=null; if(x.chap&&aid){x.articles.forEach(function(a){if(a.id===aid)ch=a;});}
+  if(ch) $('#frame').src=CONFIG.siteBase+ch.href;
+  else $('#frame').src=x.path+(dark?'?theme=dark':'?theme=light')+((aid&&aid!=='full'&&!x.chap)?'#'+aid:'');
 }
 function sSearch(q){
   setChrome({title:L.searchT,sub:L.name,back:base(),same:'/search',crumbs:[[L.searchT,'#']]});
@@ -585,9 +595,27 @@ function route(keep){
   if(p[0]==='search'){ sSearch(p.slice(1).join('/')); if(!keep){var q=$('#q'); if(q){q.focus();var v=q.value;q.value='';q.value=v;}} return; }
   document.body.classList.remove('fullday-on');
   if(!keep) window.scrollTo(0,0);
-  if(!p.length) sHome(); else if(p.length===1) sYear(p[0]); else sFull(p[0],p[1]);   // an issue opens its HTML page full screen
+  if(!p.length) sHome(); else if(p.length===1) sYear(p[0]); else if(p.length===2) sIssue(p[0],p[1]); else sFull(p[0],p[1],p[2]);   // an issue opens its HTML page full screen
 }
-window.addEventListener('hashchange',function(){route(false);});
+/* Back arrow in the top bar = one step back. The app keeps its own list of visited pages, so this works the same
+   inside the app's WebView (it does not depend on the browser history). */
+var navStack=[location.hash||'#/'], goingBack=false;
+window.addEventListener('hashchange',function(){
+  var h=location.hash||'#/';
+  if(goingBack){ goingBack=false; }
+  else if(navStack.length>1 && navStack[navStack.length-2]===h){ navStack.pop(); }   // phone's own back button
+  else if(navStack[navStack.length-1]!==h){ navStack.push(h); }
+  route(false);
+});
+document.getElementById('backBtn').addEventListener('click',function(e){
+  if(navStack.length>1){
+    e.preventDefault();
+    navStack.pop();
+    var target=navStack[navStack.length-1];
+    if((location.hash||'#/')===target) return;
+    goingBack=true; location.hash=target;
+  }
+});
 function boot(d){INDEX=d&&d.editions?d:{editions:{}};buildFlat();route(false);}
 view.innerHTML='<div class="loading"><span class="spin"></span>'+esc(L.loading)+'</div>';
 fetch(CONFIG.siteBase+CONFIG.indexJson,{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(boot)
