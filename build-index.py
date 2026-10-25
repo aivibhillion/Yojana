@@ -171,6 +171,41 @@ def parse_issue(path, label):
     return theme, p.glance, arts, notes
 
 
+def parse_chapter_folder(d, label):
+    """Folder layout:  en/2026/September/index.html + ch01_*.html ...  The folder's index.html
+    lists chapters as <a class="cd" href="ch01_x.html"> cards (nb=number, tp=topic, <b>=title,
+    sb=summary, au=author). Falls back to the <title> of every ch*.html file."""
+    idx = d / "index.html"
+    html = idx.read_text(encoding="utf-8", errors="replace")
+    notes = []
+    h1 = re.search(r"<h1[^>]*>(.*?)</h1>\s*<p[^>]*>(.*?)</p>", html, re.S)
+    strip = lambda t: clean(re.sub(r"<[^>]+>", " ", t))
+    theme = strip(h1.group(2)) if h1 else label
+    theme = re.split(r"\s+[\u2014-]\s+chapter", theme, flags=re.I)[0]
+    chapters = []
+    for m in re.finditer(r'<a[^>]*class="cd"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html, re.S):
+        href, body = m.group(1), m.group(2)
+        if not (d / href).is_file():
+            notes.append(f"{href} listed in index.html but file not found"); continue
+        g = lambda c: strip((re.search(r'<span class="%s">(.*?)</span>' % c, body, re.S) or [0, ""])[1] if True else "")
+        title = strip((re.search(r"<b>(.*?)</b>", body, re.S) or [0, ""])[1])
+        col = re.search(r"--c:(#[0-9A-Fa-f]{3,8})", m.group(0))
+        chapters.append({"href": href, "category": g("tp") or "Chapter", "author": g("au"),
+                         "title": title, "summary": g("sb"), "color": col.group(1) if col else ""})
+    if not chapters:
+        for f in sorted(d.glob("ch*.html")):
+            t = re.search(r"<title>(.*?)</title>", f.read_text(encoding="utf-8", errors="replace"), re.S)
+            chapters.append({"href": f.name, "category": "Chapter", "author": "", "color": "",
+                             "title": strip(t.group(1)) if t else f.stem, "summary": ""})
+        notes.append("no chapter cards in index.html, listed from ch*.html files")
+    arts = []
+    for i, c in enumerate(chapters, 1):
+        c["id"] = f"c{i}"; c["readMin"] = 0; c["relevance"] = ""; c["facts"] = []
+        c["title"] = re.sub(r"^Chapter\s*\d+\s*:\s*", "", c["title"])
+        arts.append(c)
+    return theme, [], arts, notes
+
+
 def main():
     editions, skipped, warnings = {}, [], []
     n_issues = n_articles = 0
@@ -181,6 +216,18 @@ def main():
             continue
         for ydir in sorted(p for p in ldir.iterdir() if p.is_dir() and re.fullmatch(r"\d{4}", p.name)):
             for f in sorted(ydir.iterdir()):
+                if f.is_dir() and (f / "index.html").is_file() and f.name.lower() in MONTH_BY_LOWER:
+                    month = MONTH_BY_LOWER[f.name.lower()]
+                    rel = (f / "index.html").relative_to(ROOT).as_posix()
+                    theme, glance, arts, notes = parse_chapter_folder(f, f"{month} {ydir.name}")
+                    base = f.relative_to(ROOT).as_posix() + "/"
+                    for a in arts:
+                        a["href"] = base + a["href"]
+                    editions.setdefault(lang, {}).setdefault(ydir.name, {})[month] = {
+                        "path": rel, "theme": theme, "glance": glance, "articles": arts, "chapters": True}
+                    n_issues += 1; n_articles += len(arts)
+                    warnings += [f"{rel}: {n}" for n in notes]
+                    continue
                 if not f.is_file() or f.name.startswith("."):
                     continue
                 m = re.fullmatch(r"([A-Za-z]+)\.html", f.name, re.I)
